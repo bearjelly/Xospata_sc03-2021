@@ -1,0 +1,161 @@
+.background {
+    background-image: url('../images/bg.png');
+}
+
+/* drag */
+.ui-slider-horizontal .ui-slider-range-min {
+    left: 0;
+}
+
+.ui-slider-horizontal .ui-slider-range {
+    top: 0;
+    height: 100%;
+}
+
+.ui-slider .ui-slider-range {
+    position: absolute;
+    z-index: 1;
+    font-size: .7em;
+    display: block;
+    border: 0;
+    background-position: 0 0;
+}
+
+.ui-slider .ui-slider-handle {
+    position: absolute;
+    z-index: 2;
+    width: 1.2em;
+    height: 1.2em;
+    cursor: default;
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+.ui-slider {
+    position: relative;
+    text-align: left;
+}
+
+.lSSlideOuter .lSPager.lSpg {
+    top: 38.2vh;
+}
+
+/* drag custom */
+.drag_wrap {
+    position: absolute;
+    /* z-index: 100000; */
+    width: 100%;
+    height: 10%;
+    top: 65.3%;
+    left: 0px;
+}
+
+.ui-slider {
+    border-radius: 100px;
+}
+
+.slider-range-min {
+    width: 62.5%;
+    height: 22px;
+    margin-left: auto;
+    margin-right: auto;
+    background-position: center center;
+    background-size: 100% auto;
+}
+
+.ui-slider-range {
+    border-radius: 100px;
+}
+
+.ui-slider .ui-slider-handle {
+    width: 50px;
+    height: 56px;
+    box-sizing: border-box;
+    transform: translateX(-50%);
+
+}
+
+.ui-slider-horizontal .ui-slider-handle {
+    top: -48px;
+    background-color: transparent;
+    border: none;
+}
+
+.ui-slider-horizontal .ui-slider-handle:focus {
+    outline: none;
+    border: none;
+}
+
+.train {
+    width: 839px;
+    height: 45px;
+    background-image: url('../images/train.png');
+    background-position: right 0;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.ui-slider-horizontal .ui-slider-handle .num_wrap {
+    width: 84px;
+    height: 72px;
+    position: absolute;
+    top: -48px;
+    right: -74px;
+    text-align: center;
+    background-image: url('../images/bg_txt.png');
+    background-size: auto 88%;
+    background-repeat: no-repeat;
+}
+
+.ui-slider-horizontal .ui-slider-handle .num {
+    font-size: 2.6rem;
+    font-family: "YoonGothicPro790";
+    color: #fff;
+    position: absolute;
+    top: 37%;
+    bottom: initial;
+    left: 38%;
+    transform: translate(-50%, -50%);
+    line-height: 1;
+}
+
+.amount {
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    opacity: 0;
+}
+
+.btn_sub {
+    display: inline-block;
+    background-color: #A60F75;
+    border: 1px solid #AC956B;
+    color: #AC956B;
+    font-size: 2rem;
+    font-family: YoonGothicPro780;
+    padding: 8px 56px;
+    position: absolute;
+    top: 82%;
+    right: 11.7%;
+    pointer-events: none;
+}
+
+.btn_sub.on {
+    color: #fff;
+    pointer-events: initial;
+}
+
+
+/* 미디어쿼리 */
+@media screen and (min-width: 1366px) {
+    .drag_wrap {}
+}
+
+@media screen and (min-width: 1194px) and (max-width: 1365px) {
+    .drag_wrap {
+        top: 70.3%
+    }
+}

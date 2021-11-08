@@ -1,0 +1,398 @@
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 100;
+    src: url("../fonts/NotoSans-Thin.woff");
+}
+
+/* light */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 200;
+    src: url("../fonts/NotoSans-Light.woff");
+}
+
+/* demilight */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 300;
+    src: url("../fonts/NotoSans-DemiLight.woff");
+}
+
+/* regular */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 400;
+    src: url("../fonts/NotoSans-Regular.woff");
+}
+
+/* medium */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 500;
+    src: url("../fonts/NotoSans-Medium.woff");
+}
+
+/* bold */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../fonts/NotoSans-Bold.woff");
+}
+
+/* black */
+@font-face {
+    font-family: "NotoSans";
+    font-style: normal;
+    font-weight: 900;
+    src: url("../fonts/NotoSans-Black.woff");
+}
+
+
+/* frutiger lt std */
+@font-face {
+    font-family: "FrutigerLTStd-Cn";
+    font-style: normal;
+    font-weight: 51;
+    src: url("../fonts/FrutigerLTStd-Cn.otf");
+}
+
+/* yoon 800 */
+@font-face {
+    font-family: "YoonGothicPro780";
+    font-style: normal;
+    /* font-weight: 51; */
+    src: url("../fonts/YoonGothicPro780.otf");
+}
+
+/* yoon 900 */
+@font-face {
+    font-family: "YoonGothicPro790";
+    font-style: normal;
+    /* font-weight: 51; */
+    src: url("../fonts/YoonGothicPro790.otf");
+}
+
+/*===========================================================================================*/
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: 10px;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    font-family: "Spoqa", sans-serif;
+    width: 100%;
+    height: 100vh;
+}
+
+img {
+    width: 100%;
+    display: table;
+}
+
+ul,
+li {
+    list-style: none;
+}
+
+.container,
+#container {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    /*swipe event 받으려면 최상단에 위치*/
+}
+
+#container .inner {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    max-width: 133.334vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.background {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-size: cover;
+    background-position: top center;
+    background-image: url('../images/bg.png');
+}
+
+.background>img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.absCenter {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.xCenter {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* logo */
+.logo_top {
+    width: 7.5%;
+    max-width: 160px;
+    position: absolute;
+    top: 24px;
+    right: 30px;
+}
+
+.logo_top2 {
+    width: 5%;
+    max-width: 160px;
+    position: absolute;
+    top: 91%;
+    right: 30px;
+}
+
+.logo_btm {
+    width: 14.5%;
+    max-width: 300px;
+    position: absolute;
+    bottom: -0.2%;
+    right: 2.8%;
+    z-index: 2;
+}
+
+.logo_btm img {
+    display: table;
+}
+
+/* navi */
+.navi_wrap {
+    width: 7.4%;
+    position: absolute;
+    bottom: 1.6%;
+    right: 1%;
+    z-index: 5;
+    text-align: right;
+}
+
+.navi {
+    padding: 19px;
+    text-align: right;
+    margin: 0;
+}
+
+/* study btn */
+.btn_sd {
+    width: 4%;
+    max-width: 40px;
+    padding: 20px;
+    position: absolute;
+    bottom: 8.5%;
+    left: 4.6%;
+    z-index: 5;
+}
+
+/* popup */
+.popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0%;
+    z-index: 6;
+    display: none;
+}
+
+.popup .close {
+    width: 10%;
+    height: 15%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+}
+
+.num {
+    color: #fff;
+    font-family: "FrutigerLTStd-Cn";
+    font-size: 9px;
+    position: absolute;
+    bottom: 1.7%;
+    left: 61.7%;
+}
+
+.pop_inner {
+    position: absolute;
+    width: 100%;
+    height: 100vh;
+    max-width: 133.334vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* animation */
+.ani_ef {
+    animation-duration: 0.8s;
+    animation-timing-function: ease;
+    animation-fill-mode: forwards;
+}
+
+.dly_3 {
+    animation-delay: 300ms;
+}
+
+.dly_5 {
+    animation-delay: 500ms;
+}
+
+.dly_6 {
+    animation-delay: 600ms;
+}
+
+.dly_9 {
+    animation-delay: 900ms;
+}
+
+.dly_12 {
+    animation-delay: 1200ms;
+}
+
+.dly_15 {
+    animation-delay: 1500ms;
+}
+
+.dly_60 {
+    animation-delay: 6000ms;
+}
+
+.ply_2 {
+    animation-iteration-count: 2;
+}
+
+.infinite {
+    animation-iteration-count: infinite;
+}
+
+.ani_show {
+    opacity: 0;
+    animation-name: ani_show;
+}
+
+.ani_blink {
+    animation-name: ani_blink;
+}
+
+.ani_left {
+    animation-name: ani_left;
+}
+
+.ani_btm {
+    animation-name: ani_btm;
+}
+
+.ani_up {
+    animation-name: ani_up;
+}
+
+.ani_wipe_left {
+    animation-name: ani_wipe_left;
+    animation-duration: 1.8s;
+    overflow: hidden;
+}
+
+/* keyframes */
+@keyframes ani_left {
+    to {
+        left: var(--v_left);
+    }
+}
+
+@keyframes ani_up {
+    to {
+        bottom: var(--v_bottom);
+    }
+}
+
+@keyframes ani_btm {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+        top: var(--v_top);
+    }
+}
+
+@keyframes ani_show {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ani_blink {
+    from {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.4;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes ani_wipe_left {
+    to {
+        width: var(--v_width);
+    }
+}
+
+/* 미디어쿼리 */
+@media screen and (min-width: 1366px) {
+    .btn_sd {
+        left: 5%;
+    }
+}
+
+@media screen and (min-width: 1194px) and (max-width: 1365px) {
+    .btn_sd {
+        left: 5%;
+    }
+}

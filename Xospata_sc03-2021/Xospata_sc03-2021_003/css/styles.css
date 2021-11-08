@@ -1,0 +1,47 @@
+.navi_std {
+    display: none;
+}
+
+.ani_wrap {
+    width: 88%;
+    height: 30%;
+    position: absolute;
+    top: 35%;
+    left: 10%;
+}
+
+.txt {
+    width: 6.2%;
+    position: absolute;
+    top: 53%;
+}
+
+.txt1 {
+    left: 8.5%;
+}
+
+.txt2 {
+    left: 37.5%;
+}
+
+.txt3 {
+    left: 69.3%;
+}
+
+.zoom {
+    animation-name: zoom;
+}
+
+@keyframes zoom {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}

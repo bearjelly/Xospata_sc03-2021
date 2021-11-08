@@ -1,0 +1,51 @@
+.navi_std {
+    display: none;
+}
+
+.ani_wrap {
+    width: 45%;
+    height: 42%;
+    position: absolute;
+    top: 37%;
+    left: 23%;
+    overflow: hidden;
+}
+
+.ani_wrap>div {
+    position: absolute;
+}
+
+.g1 {
+    width: 28.5%;
+    left: 19%;
+    bottom: -80%;
+    --v_bottom: 0;
+}
+
+.g2 {
+    width: 26.5%;
+    left: 58%;
+    bottom: -36%;
+    --v_bottom: 0;
+}
+
+.ani_up2 {
+    animation-name: ani_up2;
+    animation-duration: 1.6s;
+    --v_bottom: 0%;
+}
+
+@keyframes ani_up2 {
+    0% {
+        bottom: -80%;
+    }
+
+    40%,
+    50% {
+        bottom: -49%;
+    }
+
+    100% {
+        bottom: var(--v_bottom);
+    }
+}

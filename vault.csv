@@ -1,0 +1,11 @@
+pres.crm_presentation_id__v,external_id__v,name__v,Create Presentation,Type,lifecycle__v,Presentation Link,Fields Only,pres.crm_training__v,pres.crm_hidden__v,pres.product__v.name__v,slide.crm_media_type__v,slide.crm_disable_actions__v,slide.product__v.name__v,slide.filename,slide.crm_shared_resource__v,slide.clm_content__v,pres.clm_content__v,slide.related_shared_resource__v,pres.engage_content__v,slide.engage_content__v,pres.cobrowse_content__v
+Xospata_sc03-2021,Xospata_sc03-2021,Xospata_sc03-2021,,Presentation,Binder Lifecycle,,,FALSE,FALSE,CM1303_2021_Xospata,,,,,,,YES,,No,,No
+,Xospata_sc03-2021_Shared,Xospata_sc03-2021_Shared,FALSE,Shared,CRM Content Lifecycle,,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_Shared.zip,YES,YES,,,,No,
+,,Xospata_sc03-2021_000,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_000.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_001,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_001.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_002,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_002.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_003,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_003.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_004,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_004.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_005,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_005.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_006,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_006.zip,,YES,,Xospata_sc03-2021_Shared,,No,
+,,Xospata_sc03-2021_PI,FALSE,Slide,CRM Content Lifecycle,Xospata_sc03-2021,FALSE,,,,HTML,"Zoom, Swipe",CM1303_2021_Xospata,Xospata_sc03-2021_PI.zip,,YES,,Xospata_sc03-2021_Shared,,No,
