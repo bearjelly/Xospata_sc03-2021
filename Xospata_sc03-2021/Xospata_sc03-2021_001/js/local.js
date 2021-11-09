@@ -4,21 +4,6 @@ const ACTION = "Submitted_vod";
 let ANSWER = null;
 
 $(document).ready(function() {
-    setTimeout(() => {
-        if (com.vclm.mt.isVeevaEnvironment()) {
-            com.veeva.clm.getSurvey_Object(
-                function(dataReceived) {
-                    surveyObject = dataReceived;
-                },
-                function(errorMsg) {
-                    $("#errorDiv").html(errorMsg);
-                }
-            );
-        } else {
-            surveyObject = dummyObject;
-        }
-    }, 10);
-
 
     // drag
     $(".slider-range-min").slider({
@@ -52,19 +37,80 @@ $(document).ready(function() {
     // submit
     let btnSave = $(".btn_sub");
     btnSave.on("click", function(e) {
-        getAnswer(ANSWER)
-            .then(res =>
-                submitSurvey(surveyObject, ACTION, ANSWER)
-            )
+        // setSurveyResult()
+        //     .then(res => submitSurvey(surveyObject, ACTION));
+
+        submitSurvey(surveyObject, ACTION);
+        setTimeout(() => {
+            com.vclm.mt.gotoSlide('Xospata_sc03-2021_004');
+        }, 500);
     });
+
+    setTimeout(() => {
+        if (com.vclm.mt.isVeevaEnvironment()) {
+            com.veeva.clm.getSurvey_Object(
+                function(dataReceived) {
+                    surveyObject = dataReceived;
+                    $('.error').append(`<h2>surveyObject</h2>`)
+                },
+                function(errorMsg) {
+                    $('.error').append(`<h2>${errorMsg}</h2>`)
+                }
+            );
+        } else {
+            surveyObject = dummyObject;
+        }
+    }, 10)
 });
 
-const getAnswer = (ans) => {
+const setSurveyResult = () => {
     return new Promise((res, rej) => {
-        let drag_handel = $(".ui-slider-handle");
-        ANSWER = drag_handel.find('.num').data("value") + "%";
-        res(ANSWER);
-    })
+        if (com.vclm.mt.isVeevaEnvironment()) {
+            com.veeva.clm.getSurvey_Object(
+                function(dataReceived) {
+                    surveyObject = dataReceived;
+                    // $('.error').append(`<h2>surveyObject</h2>`)
+                    res();
+                },
+                function(errorMsg) {
+                    $('.error').append(`<h2>${errorMsg}</h2>`)
+                    res();
+                }
+            );
+        } else {
+            surveyObject = dummyObject;
+            res();
+        }
+    });
+}
+
+const submitSurvey = (surveyObject, action, ANSWER) => {
+    ANSWER = $(".ui-slider-handle").find('.num').data("value") + "%";
+    surveyObject.Questions[0].Response.Response_vod__c = ANSWER;
+    $('.error').append(`<h2>${ANSWER}</h2>`)
+
+    if (com.vclm.mt.isVeevaEnvironment()) {
+        console.log("비바환경", "action:", action, "surveyObject", surveyObject);
+        com.veeva.clm.submitSurvey(
+            surveyObject,
+            action,
+            function() {
+                if (action == "Saved_vod") {
+                    // $(".inner").text("Survey has been saved.");
+                } else {
+                    // $(".inner").text("Survey has been submitted");
+                }
+                // com.vclm.mt.gotoSlide('Xospata_sc03-2021_004');
+            },
+            function(errorMsg) {
+                console.log(errorMsg);
+                $('.error').append(`<h2>${errorMsg}</h2>`)
+            }
+        );
+    } else {
+        console.log("submit!!!", surveyObject);
+        // com.vclm.mt.gotoSlide('Xospata_sc03-2021_004');
+    }
 }
 
 let dummyObject = {
@@ -88,55 +134,3 @@ let dummyObject = {
         },
     }],
 };
-
-const submitSurvey = (surveyObject, action, ANSWER) => {
-    // console.log("submit하자");
-    console.log('ANSWER', ANSWER);
-    surveyObject.Questions[0].Response.Response_vod__c = ANSWER;
-
-    if (com.vclm.mt.isVeevaEnvironment()) {
-        console.log("비바환경", "action:", action, "surveyObject", surveyObject);
-        com.veeva.clm.submitSurvey(
-            surveyObject,
-            action,
-            function() {
-                if (action == "Saved_vod") {
-                    // $(".inner").text("Survey has been saved.");
-                    // com.vclm.mt.gotoSlide('Xospata_sc03-2021_002')
-                } else {
-                    // $(".inner").text("Survey has been submitted");
-                    // com.vclm.mt.gotoSlide('Xospata_sc03-2021_002')
-                }
-                com.vclm.mt.gotoSlide('Xospata_sc03-2021_002')
-            },
-            function(errorMsg) {
-                console.log(errorMsg);
-                $(".inner").text(errorMsg);
-            }
-        );
-    } else {
-        console.log("submit!!!", surveyObject);
-        com.vclm.mt.gotoSlide('Xospata_sc03-2021_002')
-    }
-};
-
-
-
-
-
-// (function() {
-//     /* https://codepen.io/JefMari/pen/NxLaed */
-//     function hasClass(element, cls) {
-//         return (" " + element.className + " ").indexOf(" " + cls + " ") > -1;
-//     }
-
-//     var swipeArea = document.getElementsByClassName("swipe-area")[0];
-//     var swipeRightOn = hasClass(swipeArea, "swipe-right");
-
-//     var mc = new Hammer(swipeArea);
-//     /* Go to next slide on swipe left */
-//     mc.on("swiperight", function(ev) {
-//         if (!swipeRightOn) return;
-//         com.vclm.mt.closeSlide();
-//     });
-// })();

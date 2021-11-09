@@ -31,7 +31,7 @@
 //        }
 //    }]
 // }
-com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
+com.veeva.clm.getSurvey_Object = function(onRequestSuccess, onRequestError) {
 
     var fetchPosition = 0; //used to loop through records in asynchronic calls
     var accountID = null;
@@ -39,16 +39,16 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     var objSurvey_vod__c = {}; //survey object (JSON)
 
     //this function is the first to be called
-    var startGetSequence = function () {
+    var startGetSequence = function() {
         getAccountID();
     };
 
     //get account id
-    var getAccountID = function () {
+    var getAccountID = function() {
         com.veeva.clm.getDataForCurrentObject(
             'Account',
             'ID',
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     accountID = dataReceived.Account.ID;
                     getQuestionRecordTypes();
@@ -59,10 +59,10 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     };
 
     //get question recordtypes: will populate the questionsRecordTypes JSON array {["ID":"record type id","Name":"record type name"]}
-    var getQuestionRecordTypes = function () {
+    var getQuestionRecordTypes = function() {
         com.veeva.clm.getRecordType_Object(
             'Survey_Question_vod__c',
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     for (var i = 0; i < dataReceived.RecordType.length; i++) {
                         questionRecordTypes.push(JSON.parse('{"ID":"' + dataReceived.RecordType[i].ID + '"}'));
@@ -74,12 +74,12 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                 }
             });
 
-        var getQuestionRecordTypeNames = function () {
+        var getQuestionRecordTypeNames = function() {
             com.veeva.clm.getDataForObject(
                 'RecordType',
                 questionRecordTypes[fetchPosition].ID,
                 'DeveloperName',
-                function (dataReceived) {
+                function(dataReceived) {
                     if (dataReceived.success) {
                         switch (dataReceived.RecordType.DeveloperName) {
                             case 'Date_vod':
@@ -124,12 +124,12 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     };
 
     //get survey detauls (ID, Name and Frequency): will store the data in the objSurvey_vod__c object
-    var getSurveyDetails = function () {
+    var getSurveyDetails = function() {
         //survey id
         com.veeva.clm.getDataForCurrentObject(
             'Presentation',
             'Survey_vod__c',
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     objSurvey_vod__c.ID = dataReceived.Presentation.Survey_vod__c;
                     //survey name
@@ -137,7 +137,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                         'Survey_vod__c',
                         objSurvey_vod__c.ID,
                         'Name',
-                        function (dataReceived) {
+                        function(dataReceived) {
                             if (dataReceived.success) {
                                 objSurvey_vod__c.Name = dataReceived.Survey_vod__c.Name;
                                 //record type: recurring or one time
@@ -145,12 +145,12 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                                     'Survey_vod__c',
                                     objSurvey_vod__c.ID,
                                     'RecordTypeId',
-                                    function (dataReceived) {
+                                    function(dataReceived) {
                                         com.veeva.clm.getDataForObject(
                                             'RecordType',
                                             dataReceived.Survey_vod__c.RecordTypeId,
                                             'DeveloperName',
-                                            function (dataReceived) {
+                                            function(dataReceived) {
                                                 if (dataReceived.success) {
                                                     if (dataReceived.RecordType.DeveloperName == 'Recurring_vod') {
                                                         objSurvey_vod__c.Frequency = 'Recurring';
@@ -175,11 +175,11 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     };
 
     //get survey taget and status: will set the survey status (New, Pending_vod, Saved_vod, Submitted_vod) and most recent target ID (if any)
-    var getMostRecentTargetAndStatus = function () {
+    var getMostRecentTargetAndStatus = function() {
         com.veeva.clm.getSurveyTarget_Account(
             accountID,
             objSurvey_vod__c.ID,
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     if (dataReceived.Survey_Target_vod__c.length > 0) {
                         objSurvey_vod__c.Survey_Target_vod__c = dataReceived.Survey_Target_vod__c[dataReceived.Survey_Target_vod__c.length - 1].ID;
@@ -187,7 +187,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Survey_Target_vod__c',
                             objSurvey_vod__c.Survey_Target_vod__c,
                             'Status_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 switch (dataReceived.Survey_Target_vod__c.Status_vod__c) {
                                     case 'Pending_vod':
                                         objSurvey_vod__c.Status_vod__c = 'Pending_vod';
@@ -218,13 +218,13 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     //get survey questions: will populate the questions array in objSurvey_vod__c
     //for each question, the following data will be collected: ID, Text, Order, Required, Recordtype ID, Recordtype Name, Anwser Choices
     //a response object for each question will be initialized with null values
-    var getQuestions = function () {
+    var getQuestions = function() {
         var questions = [];
 
         //questions id
         com.veeva.clm.getSurveyQuestions_Survey(
             objSurvey_vod__c.ID,
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     for (var i = 0; i < dataReceived.Survey_Question_vod__c.length; i++) {
                         questions.push(JSON.parse('{"ID":"' + dataReceived.Survey_Question_vod__c[i].ID + '"}'));
@@ -242,13 +242,13 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
             });
 
         //question details
-        var getQuestionDetails = function () {
+        var getQuestionDetails = function() {
             //text
             com.veeva.clm.getDataForObject(
                 'Survey_Question_vod__c',
                 questions[fetchPosition].ID,
                 'Text_vod__c',
-                function (dataReceived) {
+                function(dataReceived) {
                     if (dataReceived.success) {
                         questions[fetchPosition].Text_vod__c = dataReceived.Survey_Question_vod__c.Text_vod__c;
                         //order
@@ -256,7 +256,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Survey_Question_vod__c',
                             questions[fetchPosition].ID,
                             'Order_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     questions[fetchPosition].Order_vod__c = dataReceived.Survey_Question_vod__c.Order_vod__c;
                                     //required
@@ -264,7 +264,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                                         'Survey_Question_vod__c',
                                         questions[fetchPosition].ID,
                                         'Required_vod__c',
-                                        function (dataReceived) {
+                                        function(dataReceived) {
                                             if (dataReceived.success) {
                                                 if (dataReceived.Survey_Question_vod__c.Required_vod__c == true) {
                                                     questions[fetchPosition].Required_vod__c = 1;
@@ -276,7 +276,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                                                     'Survey_Question_vod__c',
                                                     questions[fetchPosition].ID,
                                                     'RecordTypeId',
-                                                    function (dataReceived) {
+                                                    function(dataReceived) {
                                                         if (dataReceived.success) {
                                                             questions[fetchPosition].RecordTypeID = dataReceived.Survey_Question_vod__c.RecordTypeId;
                                                             questions[fetchPosition].RecordTypeName = findQuestionRecordTypeName(questions[fetchPosition].RecordTypeID);
@@ -285,7 +285,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                                                                 'Survey_Question_vod__c',
                                                                 questions[fetchPosition].ID,
                                                                 'Answer_Choice_vod__c',
-                                                                function (dataReceived) {
+                                                                function(dataReceived) {
                                                                     if (dataReceived.success) {
                                                                         questions[fetchPosition].Answer_Choice_vod__c = dataReceived.Survey_Question_vod__c.Answer_Choice_vod__c;
                                                                         questions[fetchPosition].Answer_Choice_vod__c_ToArray = answerChoicesToArray(dataReceived.Survey_Question_vod__c.Answer_Choice_vod__c);
@@ -350,7 +350,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                 });
         };
 
-        var findQuestionRecordTypeName = function (recordTypeID) {
+        var findQuestionRecordTypeName = function(recordTypeID) {
             for (var n = 0; n < questionRecordTypes.length; n++) {
                 if (questionRecordTypes[n].ID == recordTypeID) {
                     return questionRecordTypes[n].Name;
@@ -358,7 +358,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
             }
         };
 
-        var answerChoicesToArray = function (answerChoices) {
+        var answerChoicesToArray = function(answerChoices) {
 
             var tempArray = [];
             var newArray = [];
@@ -381,13 +381,13 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
 
     //get saved responses (only if the survey status is in Saved_vod): will get response ID and value for each question
     //some questions may not have a saved response, in that case, the response object will remain null (Response.ID: null)
-    var getSavedResponses = function () {
+    var getSavedResponses = function() {
         var responses = [];
 
         //get responses for survey target
         com.veeva.clm.getQuestionResponse_SurveyTarget(
             objSurvey_vod__c.Survey_Target_vod__c,
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     for (var v = 0; v < dataReceived.Question_Response_vod__c.length; v++) {
                         responses.push(dataReceived.Question_Response_vod__c[v].ID);
@@ -400,14 +400,14 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
             });
 
         //assign response IDs to questions
-        var assignResponsesToQuestions = function () {
+        var assignResponsesToQuestions = function() {
 
             //question id of response
             com.veeva.clm.getDataForObject(
                 'Question_Response_vod__c',
                 responses[fetchPosition],
                 'Survey_Question_vod__c',
-                function (dataReceived) {
+                function(dataReceived) {
                     if (dataReceived.success) {
                         //find question that matches ID
                         for (var n = 0; n < objSurvey_vod__c.Questions.length; n++) {
@@ -449,9 +449,9 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
         };
 
         //get response values
-        var getResponsesValues = function () {
+        var getResponsesValues = function() {
 
-            var next = function () {
+            var next = function() {
                 //next response
                 fetchPosition++;
 
@@ -471,7 +471,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Question_Response_vod__c',
                             responses[fetchPosition],
                             'Date_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     objSurvey_vod__c.Questions[fetchPosition].Response.Date_vod__c = dataReceived.Question_Response_vod__c.Date_vod__c; //response
                                     next();
@@ -486,7 +486,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Question_Response_vod__c',
                             responses[fetchPosition],
                             'Datetime_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     objSurvey_vod__c.Questions[fetchPosition].Response.Datetime_vod__c = dataReceived.Question_Response_vod__c.Datetime_vod__c; //response
                                     next();
@@ -503,7 +503,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Question_Response_vod__c',
                             responses[fetchPosition],
                             'Response_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     objSurvey_vod__c.Questions[fetchPosition].Response.Response_vod__c = dataReceived.Question_Response_vod__c.Response_vod__c; //response
                                     next();
@@ -519,7 +519,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Question_Response_vod__c',
                             responses[fetchPosition],
                             'Text_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     objSurvey_vod__c.Questions[fetchPosition].Response.Text_vod__c = dataReceived.Question_Response_vod__c.Text_vod__c; //response
                                     next();
@@ -534,7 +534,7 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
                             'Question_Response_vod__c',
                             responses[fetchPosition],
                             'Number_vod__c',
-                            function (dataReceived) {
+                            function(dataReceived) {
                                 if (dataReceived.success) {
                                     objSurvey_vod__c.Questions[fetchPosition].Response.Number_vod__c = dataReceived.Question_Response_vod__c.Number_vod__c; //response
                                     next();
@@ -551,12 +551,12 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
     };
 
     //Return survey object
-    var returnSurveyObject = function () {
+    var returnSurveyObject = function() {
         onRequestSuccess(objSurvey_vod__c);
     };
 
     //Something went wrong, return error message
-    var returnError = function (errorMsg) {
+    var returnError = function(errorMsg) {
         onRequestError(errorMsg);
     };
 
@@ -570,14 +570,14 @@ com.veeva.clm.getSurvey_Object = function (onRequestSuccess, onRequestError) {
 //
 // If Success, this will call the onRequestSuccess function
 // If Error, this will return an error message as a parameter for onRequestError function
-com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, onRequestError) {
+com.veeva.clm.submitSurvey = function(surveyObject, action, onRequestSuccess, onRequestError) {
 
     var fetchPosition = 0;
     var surveyResponseObject = {};
     var clmResponseRecordTypeID = null;
     var recordTypesArray = [];
 
-    var startSubmitSequence = function () {
+    var startSubmitSequence = function() {
         if ((action != 'Submitted_vod') && (action != 'Saved_vod')) {
             returnError('com.veeva.clm.submitSurvey: Invalid action [' + action + ']');
         } else {
@@ -586,10 +586,10 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
     };
 
     //find CLM response recordtype
-    var getResponseRecordTypes = function () {
+    var getResponseRecordTypes = function() {
         com.veeva.clm.getRecordType_Object(
             'Question_Response_vod__c',
-            function (dataReceived) {
+            function(dataReceived) {
                 recordTypesArray = [];
                 for (var v = 0; v < dataReceived.RecordType.length; v++) {
                     recordTypesArray.push(dataReceived.RecordType[v].ID);
@@ -599,12 +599,12 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
             });
     };
 
-    var findCLMResponseRecordTypeID = function () {
+    var findCLMResponseRecordTypeID = function() {
         com.veeva.clm.getDataForObject(
             'RecordType',
             recordTypesArray[fetchPosition],
             'DeveloperName',
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.RecordType.DeveloperName == 'CLM_vod') {
                     clmResponseRecordTypeID = recordTypesArray[fetchPosition];
                     fetchPosition = 0;
@@ -624,7 +624,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
     //for new or recurring submitted surveys, will create the survey target then create question response records
     //for pending surveys, will use the survey target to create new response records
     //for saved surveys, will create or updated response records
-    var evaluateSurveyStatus = function () {
+    var evaluateSurveyStatus = function() {
         switch (surveyObject.Status_vod__c) {
             case 'New':
                 createSurveyTarget(); //create survey target, then create question response records
@@ -646,7 +646,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
     };
 
     //create survey target: will create the survey target object
-    var createSurveyTarget = function () {
+    var createSurveyTarget = function() {
         var surveyTargetObject = {};
 
         surveyTargetObject.Survey_vod__c = surveyObject.ID;
@@ -658,7 +658,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
         com.veeva.clm.getDataForCurrentObject(
             'Account',
             'ID',
-            function (dataReceived) {
+            function(dataReceived) {
                 if (dataReceived.success) {
                     surveyTargetObject.Account_vod__c = dataReceived.Account.ID;
                     //recordtype
@@ -666,7 +666,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                         'Survey_vod__c',
                         surveyObject.ID,
                         'RecordTypeID',
-                        function (dataReceived) {
+                        function(dataReceived) {
                             if (dataReceived.success) {
                                 surveyTargetObject.RecordTypeID = dataReceived.Survey_vod__c.RecordTypeID;
                                 //territory
@@ -674,7 +674,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                     'Survey_vod__c',
                                     surveyObject.ID,
                                     'Territory_vod__c',
-                                    function (dataReceived) {
+                                    function(dataReceived) {
                                         if (dataReceived.success) {
                                             surveyTargetObject.Territory_vod__c = dataReceived.Survey_vod__c.Territory_vod__c;
                                             //start date
@@ -682,7 +682,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                                 'Survey_vod__c',
                                                 surveyObject.ID,
                                                 'Start_Date_vod__c',
-                                                function (dataReceived) {
+                                                function(dataReceived) {
                                                     if (dataReceived.success) {
                                                         surveyTargetObject.Start_Date_vod__c = dataReceived.Survey_vod__c.Start_Date_vod__c;
                                                         //end date
@@ -690,7 +690,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                                             'Survey_vod__c',
                                                             surveyObject.ID,
                                                             'End_Date_vod__c',
-                                                            function (dataReceived) {
+                                                            function(dataReceived) {
                                                                 if (dataReceived.success) {
                                                                     surveyTargetObject.End_Date_vod__c = dataReceived.Survey_vod__c.End_Date_vod__c;
                                                                     //region
@@ -698,7 +698,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                                                         'Survey_vod__c',
                                                                         surveyObject.ID,
                                                                         'Region_vod__c',
-                                                                        function (dataReceived) {
+                                                                        function(dataReceived) {
                                                                             if (dataReceived.success) {
                                                                                 surveyTargetObject.Region_vod__c = dataReceived.Survey_vod__c.Region_vod__c;
                                                                                 //language
@@ -706,7 +706,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                                                                     'Survey_vod__c',
                                                                                     surveyObject.ID,
                                                                                     'Language_vod__c',
-                                                                                    function (dataReceived) {
+                                                                                    function(dataReceived) {
                                                                                         if (dataReceived.success) {
                                                                                             surveyTargetObject.Language_vod__c = dataReceived.Survey_vod__c.Language_vod__c;
                                                                                             //channels
@@ -714,14 +714,14 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                                                                                                 'Survey_vod__c',
                                                                                                 surveyObject.ID,
                                                                                                 'Channels_vod__c',
-                                                                                                function (dataReceived) {
+                                                                                                function(dataReceived) {
                                                                                                     if (dataReceived.success) {
                                                                                                         surveyTargetObject.Channels_vod__c = dataReceived.Survey_vod__c.Channels_vod__c;
                                                                                                         //create survey target
                                                                                                         com.veeva.clm.createRecord(
                                                                                                             'Survey_Target_vod__c',
                                                                                                             surveyTargetObject,
-                                                                                                            function (dataReceived) {
+                                                                                                            function(dataReceived) {
                                                                                                                 if (dataReceived.success) {
                                                                                                                     surveyObject.Survey_Target_vod__c = dataReceived.Survey_Target_vod__c.ID;
                                                                                                                     submitQuestions();
@@ -764,7 +764,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
     };
 
     //submit questions (create or update records), one by one
-    var submitQuestions = function () {
+    var submitQuestions = function() {
 
         if (fetchPosition < surveyObject.Questions.length) {
 
@@ -812,7 +812,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                 com.veeva.clm.createRecord(
                     "Question_Response_vod__c",
                     surveyResponseObject,
-                    function (dataReceived) {
+                    function(dataReceived) {
                         if (!dataReceived.success) {
                             returnError('com.veeva.clm.submitSurvey: Unable to create Response Record. Code: ' + dataReceived.code + '. Message:' + dataReceived.message);
                         } else {
@@ -826,7 +826,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                     'Question_Response_vod__c',
                     surveyResponseObject.ID,
                     surveyResponseObject,
-                    function (dataReceived) {
+                    function(dataReceived) {
                         if (!dataReceived.success) {
                             returnError('com.veeva.clm.submitSurvey: Unable to update Response Record. Code: ' + dataReceived.code + '. Message:' + dataReceived.message);
                         } else {
@@ -848,7 +848,7 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
                 'Survey_Target_vod__c',
                 surveyObject.Survey_Target_vod__c,
                 submittedStatusObject,
-                function (dataReceived) {
+                function(dataReceived) {
                     if (!dataReceived.success) {
                         returnError('com.veeva.clm.submitSurvey: Unable to update Survey Target Status. Code: ' + dataReceived.code + '. Message:' + dataReceived.message);
                     } else {
@@ -859,12 +859,12 @@ com.veeva.clm.submitSurvey = function (surveyObject, action, onRequestSuccess, o
     };
 
     //Return survey object
-    var returnSuccess = function () {
+    var returnSuccess = function() {
         onRequestSuccess();
     };
 
     //Something went wrong, return error message
-    var returnError = function (errorMsg) {
+    var returnError = function(errorMsg) {
         onRequestError(errorMsg);
     };
 

@@ -27,9 +27,9 @@ $(document).ready(function() {
         if ($(this).hasClass('navi_std')) {
             let popSTD = '<div class="popup pop_std">';
             popSTD += '<div class="close"></div>';
-            popSTD += '<img src="./images/bg_std.jpg" alt="">';
+            popSTD += '<img src="../shared/images/bg_std.jpg" alt="">';
             popSTD += '<div class="pop_inner">';
-            popSTD += '<img src="./images/std_inner.png" alt="">';
+            popSTD += '<img src="../shared/images/std_inner.png" alt="">';
             popSTD += '</div > ';
             popSTD += '<div class="num">AKR-XSP-202110-03';
             popSTD += '</div>';
